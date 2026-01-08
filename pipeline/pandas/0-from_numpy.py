@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import pandas as pd
-import numpy as np
-import string
 def from_numpy(array):
     n_columns = array.shape[1]
-    columns = list(string.ascii_uppercase[:n_columns])
+    if n_columns > 26:
+        raise ValueError("Number of columns cannot exceed 26 for A-Z column names")
+    columns = [chr(65+i) for i in range(n_columns)]
     return pd.DataFrame(array, columns = columns)

@@ -10,8 +10,8 @@ Sets missing values in Volume_(BTC) and Volume_(Currency) to 0"""
 def fill(df):
     """a function def fill(df): that takes a pd.DataFrame"""
 
-    updated_df = df.drop(columns=['Weighted_Price'])
-    updated_df['Close'].fillna(method='ffill', inplace=True)
-    updated_df['Close','Low','Open'].fillna(updated_df['Close'], inplace=True)
-    updated_df['Volume_(BTC)','Volume_(Currency)'].fillna(0,inplace=True)
+    updated_df = df.drop(columns=["Weighted_Price"])
+    updated_df["Close"].fillna(method="ffill", inplace=True)
+    updated_df[["High","Low","Open"]] = updated_df[["High","Low","Open"]].fillna(updated_df["Close"], inplace=True).ffill()
+    updated_df["Volume_(BTC)","Volume_(Currency)"].fillna(0, inplace=True)
     return updated_df

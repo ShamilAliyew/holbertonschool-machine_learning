@@ -4,5 +4,5 @@
 
 def slice(df):
     """a function def slice(df): that takes a pd.DataFrame and"""
-    updated_df = df[["High", "Low", "Close", "Volume_BTC"]][::60]
-    return updated_df.tail()
+    updated_df = df[["High", "Low", "Close", "Volume_BTC"]].iloc[::60]
+    return updated_df

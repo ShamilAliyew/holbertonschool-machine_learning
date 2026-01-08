@@ -2,5 +2,6 @@
 import pandas as pd
 
 
-dictionary = {"First": [0.0, 0.5, 1.0, 1.5], "Second": ["one", "two", "three", "four"]}
+dictionary = {"First": [0.0, 0.5, 1.0, 1.5], 
+              "Second": ["one", "two", "three", "four"]}
 df = pd.DataFrame(dictionary, index=['A', 'B', 'C', 'D'])

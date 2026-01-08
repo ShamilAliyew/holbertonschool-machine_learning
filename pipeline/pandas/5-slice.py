@@ -4,4 +4,4 @@
 
 def slice(df):
     """a function def slice(df): that takes a pd.DataFrame and"""
-    return df[["High", "Low", "Close", "Volume_BTC"]].head(60)
+    return df[["High", "Low", "Close", "Volume_BTC"]][::60]

@@ -8,4 +8,4 @@ def analyze(df):
     """a function def analyze(df): that takes a pd.DataFrame and:
     Computes descriptive statistics for all columns except
      the Timestamp column"""
-    return df.describe(include="all")
+    return df.drop(columns=["Timestamp"]).describe(include="all")

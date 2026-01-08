@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-import pandas as pd
 """ a function def from_file(filename, delimiter):
- that loads data from a file as a pd.DataFrame"""
+     that loads data from a file as a pd.DataFrame"""
+import pandas as pd
 
 
 def from_file(filename, delimiter):

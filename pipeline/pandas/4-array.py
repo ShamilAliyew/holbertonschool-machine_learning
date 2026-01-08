@@ -6,4 +6,4 @@
 def array(df):
     """a function def array(df):
      that takes a pd.DataFrame as input and performs the following"""
-    return df[["High", "Close"]].to_numpy()
+    return df[["High", "Close"]].to_numpy().tail(10)

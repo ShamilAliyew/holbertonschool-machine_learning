@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""a function def from_numpy(array): that creates a pd.DataFrame from a np.ndarray"""
+"""a function def from_numpy(array):
+ that creates a pd.DataFrame from a np.ndarray"""
 import pandas as pd
 
 
 def from_numpy(array):
-    """a function def from_numpy(array): that creates a pd.DataFrame from a np.ndarray"""
+    """a function def from_numpy(array):
+     that creates a pd.DataFrame from a np.ndarray"""
     n_columns = array.shape[1]
     if n_columns > 26:
         raise ValueError("Number of columns"

@@ -22,4 +22,6 @@ daily = df_2017.resample("D").agg({
     'Volume(BTC)': 'sum',
     'Volume(Currency)': 'sum'
 })
-plt.plot(daily)
+plt.plot(df_2017["Date"], daily)
+plt.legend()
+plt.show()

@@ -19,7 +19,7 @@ def hierarchy(df1, df2):
     df = pd.concat([df2, df1], keys=["bitstamp", "coinbase"])
     updated_df = df.swaplevel(0,1).sort_index()
 
-    start = pd.to_datetime(1417411980, unit="s")
-    end = pd.to_datetime(1417417980, unit="s")
+    start = 1417411980
+    end = 1417417980
 
     return updated_df.loc[start:end]

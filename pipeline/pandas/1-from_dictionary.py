@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Doc"""
+"""Documented module"""
 import pandas as pd
 
 

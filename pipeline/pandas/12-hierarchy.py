@@ -14,6 +14,7 @@ def concat(df1, df2):
     df = pd.concat([updated_df2, df1], keys=["bitstamp", "coinbase"])
     return df
 
+
 def hierarchy(df1, df2):
     """a function def hierarchy(df1, df2):
      that takes two pd.DataFrame objects"""

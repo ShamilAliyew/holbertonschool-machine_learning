@@ -14,5 +14,5 @@ def frequency():
     plt.xlim(0, 100)
     plt.ylim(0, 30)
     plt.xticks(np.arange(0, 101, 10))
-    plt.hist(student_grades, bins= range(1, 101, 20), edgecolor='black')
+    plt.hist(student_grades, bins= range(1, 101, 10), edgecolor='black')
     plt.show()

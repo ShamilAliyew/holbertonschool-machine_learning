@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """to plot a histogram of student scores for a project"""
 import numpy as np
 import matplotlib.pyplot as plt

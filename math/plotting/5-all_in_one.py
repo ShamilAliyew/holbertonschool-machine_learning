@@ -65,7 +65,7 @@ def all_in_one():
     #5
     ax5 = fig.add_subplot(3, 1, 3)
     ax5.hist(student_grades,
-             bins=[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+             bins=range(0, 101, 10),
              edgecolor='black')
     ax5.set_xlabel('Grades', fontsize='x-small')
     ax5.set_ylabel('Number of Students', fontsize='x-small')

@@ -15,12 +15,13 @@ def bars():
     oranges = fruit[2]
     peaches = fruit[3]
 
-    plt.bar(people, apples, width=0.5, color='red', label='Apples')
-    plt.bar(people, bananas, width=0.5, color='yellow', bottom=apples, label='Bananas')
-    plt.bar(people, oranges, width=0.5, color='#ff8000', bottom=apples+bananas, label='Oranges')
-    plt.bar(people, peaches, width=0.5, color='#ffe5b4', bottom=apples+bananas+oranges, label='Peaches')
+    plt.bar(people, apples, width=0.5, color='red', label='apples')
+    plt.bar(people, bananas, width=0.5, color='yellow', bottom=apples, label='bananas')
+    plt.bar(people, oranges, width=0.5, color='#ff8000', bottom=apples+bananas, label='oranges')
+    plt.bar(people, peaches, width=0.5, color='#ffe5b4', bottom=apples+bananas+oranges, label='peaches')
 
     plt.ylabel("Quantity of Fruit")
     plt.yticks(np.arange(0, 81, 10))
     plt.title("Number of Fruit per Person")
     plt.legend()
+    plt.show()

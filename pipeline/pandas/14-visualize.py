@@ -19,7 +19,6 @@ daily = df_2017.resample("D").agg({
     'Low': 'min',
     'Open': 'mean',
     'Close': 'mean',
-    'Volume_(BTC)': 'sum',
     'Volume_(Currency)': 'sum'
 })
 plt.figure(figsize=[12,6])

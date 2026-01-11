@@ -2,7 +2,6 @@
 """x ↦ y as a scatter plot"""
 import numpy as np
 import matplotlib.pyplot as plt
-from pygments.lexer import default
 
 
 def scatter():

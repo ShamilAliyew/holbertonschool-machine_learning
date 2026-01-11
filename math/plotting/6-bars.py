@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def bars():
     """to plot a stacked bar graph"""
     np.random.seed(5)

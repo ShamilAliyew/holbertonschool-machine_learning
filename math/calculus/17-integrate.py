@@ -18,4 +18,6 @@ def poly_integral(poly, C=0):
         if coefficient.is_integer():
             coefficient = int(coefficient)
         result.append(coefficient)
+        if len(result) > 1 and result[-1] == 0: # sondaki 0 lari silirik
+            result.pop()
     return result

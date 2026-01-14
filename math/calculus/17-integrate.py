@@ -12,7 +12,7 @@ def poly_integral(poly, C=0):
     if not isinstance(C, int):
         return None
 
-    result= [C]
+    result = [C]
 
     for i in range(len(poly)):
         coefficient = poly[i] / (i+1)
@@ -20,6 +20,7 @@ def poly_integral(poly, C=0):
             coefficient = int(coefficient)
         result.append(coefficient)
 
-    while len(result) > 1 and result[-1] == 0: # sondaki 0 lari silirik
+    # sondaki 0 lari silirik
+    while len(result) > 1 and result[-1] == 0:
             result.pop()
     return result

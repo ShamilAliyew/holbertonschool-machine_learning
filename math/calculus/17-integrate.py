@@ -10,8 +10,7 @@ def poly_integral(poly, C=0):
     result= [C]
     for i in range(len(poly)):
         coefficient = poly[i] / (i+1)
-        if isinstance(coefficient, int):
-            result.append(int(coefficient))
-        else:
-            result.append(coefficient)
+        if coefficient.is_integer():
+            coefficient = int(coefficient)
+        result.append(coefficient)
     return result

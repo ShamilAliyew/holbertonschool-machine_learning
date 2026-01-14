@@ -7,7 +7,12 @@ def poly_integral(poly, C=0):
     if not isinstance(poly, list) or any(not isinstance(x, (int, float)) for x in poly)\
         or not isinstance(C, int):
         return None
+
     result= [C]
+
+    if len(poly) == 1:
+        return result
+
     for i in range(len(poly)):
         coefficient = poly[i] / (i+1)
         if coefficient.is_integer():

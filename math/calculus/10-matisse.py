@@ -11,4 +11,4 @@ def poly_derivative(poly):
     for i in range (1, len(poly)):
         cof = poly[i] * i
         index = i -1
-        derivative[index] = cof
+        derivative.append(cof)

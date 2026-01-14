@@ -6,7 +6,7 @@ def poly_derivative(poly):
     if not isinstance(poly, list) or len(poly) == 0 or any(not isinstance(x,(int, float)) for x in poly):
         return None
     if len(poly) == 1:
-        return 0
+        return [0]
     derivative = []
     for i in range (1, len(poly)):
         cof = poly[i] * i

@@ -10,4 +10,5 @@ def poly_integral(poly, C=0):
     result= [C]
     for i in range(len(poly)):
         coefficient = poly[i] / (i+1)
+        result.append(coefficient)
     return result

@@ -4,9 +4,9 @@
 
 def poly_integral(poly, C=0):
     """calculates the integral of a polynomial"""
-    if not isinstance(poly, list) or\
-        any(not isinstance(x, (int, float)) for x in poly)\
-        or len(poly) == 0:
+    if (not isinstance(poly, list) or
+        any(not isinstance(x, (int, float)) for x in poly)
+        or len(poly) == 0):
         return None
 
     if not isinstance(C, int):
@@ -22,5 +22,5 @@ def poly_integral(poly, C=0):
 
     # sondaki 0 lari silirik
     while len(result) > 1 and result[-1] == 0:
-            result.pop()
+        result.pop()
     return result

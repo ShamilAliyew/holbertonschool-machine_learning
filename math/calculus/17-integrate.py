@@ -10,9 +10,6 @@ def poly_integral(poly, C=0):
 
     result= [C]
 
-    if len(poly) == 1:
-        return result
-
     for i in range(len(poly)):
         coefficient = poly[i] / (i+1)
         if coefficient.is_integer():

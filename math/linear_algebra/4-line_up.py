@@ -2,6 +2,7 @@
 """a function def add_arrays(arr1, arr2):
  that adds two arrays element-wise"""
 
+
 shape = __import__('2-size_me_please').matrix_shape
 def add_arrays(arr1, arr2):
     sum_arr = []

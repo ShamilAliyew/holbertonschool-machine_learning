@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-"""arr1 should be the first two numbers of arr
-arr2 should be the last five numbers of arr
-arr3 should be the 2nd through 6th numbers of arr"""
-
-
 arr = [9, 8, 2, 3, 9, 4, 1, 0, 3]
 arr1 = arr[:2]
 arr2 = arr[len(arr)-5::]

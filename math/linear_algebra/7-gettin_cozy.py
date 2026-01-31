@@ -9,7 +9,7 @@ def cat_matrices2D(mat1, mat2, axis=0):
      that concatenates two matrices along a specific axis"""
     if not mat1 or not mat2:
         return None
-    if len (mat1[0]) == len(mat2[0]) and axis == 0:
+    if len(mat1[0]) == len(mat2[0]) and axis == 0:
         result = []
         for row in mat1:
             result.append(row[:])

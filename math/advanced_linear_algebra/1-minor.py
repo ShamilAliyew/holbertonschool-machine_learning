@@ -21,7 +21,7 @@ def minor(matrix):
     minor_matrix = [[0 for _ in range(n)] for _ in range(n)]
     for i in range(n):
         for j in range(n):
-            sub_matrix = [matrix[:j] + matrix[j+1:]
+            sub_matrix = [row[:j] + row[j+1:]
                           for row in (matrix[:i] + matrix[i+1:])]
             minor_matrix[i][j] = determinant(sub_matrix)
     return minor_matrix

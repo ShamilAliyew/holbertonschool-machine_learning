@@ -11,9 +11,12 @@ def minor(matrix):
         raise TypeError("matrix must be a list of lists")
     n = len (matrix)
 
-    if (matrix == [] or matrix == [[]] or
-            not (len(row) == n for row in matrix)):
+    if matrix == [] or matrix == [[]]:
         raise ValueError("matrix must be a non-empty square matrix")
+
+    for row in matrix:
+        if len(row) != n:
+            raise ValueError("matrix must be a non-empty square matrix")
 
     minor_matrix = [[0 for _ in range(n)] for _ in range(n)]
     for i in range(n):

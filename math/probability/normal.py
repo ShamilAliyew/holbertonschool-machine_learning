@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """a class Normal that represents a normal distribution"""
-import math
-
-from math.probability.poisson import Poisson
 
 
 class Normal:
@@ -25,4 +22,4 @@ class Normal:
             s = 0
             for x in data:
                 s += pow(x-mean, 2)
-            self.stddev = math.sqrt(s/len(data))
+            self.stddev = pow(s/len(data), 0.5)

@@ -10,7 +10,7 @@ class Normal:
         self.data = data
         if data is None:
             if stddev <= 0:
-                raise ValueError('the message stddev must be a positive value')
+                raise ValueError('stddev must be a positive value')
             self.mean = float(mean)
             self.stddev = float(stddev)
         else:

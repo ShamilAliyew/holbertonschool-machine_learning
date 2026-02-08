@@ -32,13 +32,13 @@ class Binomial():
             k = int(k)
         if k is None or k < 0 or k > self.n:
             return 0
-        combination = (Binomial.faktorial(self.n)/
-                       (Binomial.faktorial(k) * Binomial.faktorial(self.n-k)))
+        combination = (Binomial.faktorial(self.n) /
+                       (Binomial.faktorial(k) * Binomial.faktorial(self.n - k)))
         return combination * (self.p**k) * (1-self.p)**(self.n-k)
 
     def faktorial(num):
         """faktorial function"""
-        f=1
+        f = 1
         for i in range(1, num+1):
-            f*=i
+            f *= i
         return f

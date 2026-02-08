@@ -33,7 +33,8 @@ class Binomial():
         if k is None or k < 0 or k > self.n:
             return 0
         combination = (Binomial.faktorial(self.n) /
-                       (Binomial.faktorial(k) * Binomial.faktorial(self.n - k)))
+                       (Binomial.faktorial(k) *
+                        Binomial.faktorial(self.n - k)))
         return combination * (self.p**k) * (1-self.p)**(self.n-k)
 
     def faktorial(num):

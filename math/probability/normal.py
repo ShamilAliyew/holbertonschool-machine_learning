@@ -26,3 +26,11 @@ class Normal:
             for x in data:
                 s += pow(x-self.mean, 2)
             self.stddev = pow(s/len(data), 0.5)
+
+    def z_score(self, x):
+        """z-score"""
+        return (x-self.mean)/self.stddev
+
+    def x_value(self, z):
+        """x value"""
+        return (z*self.stddev) + self.mean

@@ -20,7 +20,7 @@ class Binomial():
                 raise ValueError("data must contain multiple values")
 
             mean = sum(data) / len(data)
-            std_dev = (sum([(x-mean)**2 for x in data]) / len(data))**0.5
+            std_dev = float((sum([(x-mean)**2 for x in data]) / len(data))**0.5)
             self.p = 1 - (std_dev**2)/mean
             self.n = int(round(mean/self.p))
             self.p = float(mean/self.n)

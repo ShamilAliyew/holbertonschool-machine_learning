@@ -40,4 +40,4 @@ class Normal:
     def pdf(self, x):
         """Probability density function"""
         variance = self.stddev**2
-        return (1 / (2 * self.pi * variance**2)) * self.e ** (-((x-self.mean)**2)/ (2* variance**2))
+        return (1 / (2 * self.pi * variance**2)**0.5) * self.e ** (-((x-self.mean)**2)/ (2* variance**2))

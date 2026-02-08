@@ -4,6 +4,8 @@
 
 class Normal:
     """a class Normal that represents a normal distribution"""
+    pi = 3.1415926536
+    e = 2.7182818285
 
     def __init__(self, data=None, mean=0., stddev=1.):
 
@@ -34,3 +36,8 @@ class Normal:
     def x_value(self, z):
         """x value"""
         return (z*self.stddev) + self.mean
+
+    def pdf(self, x):
+        """Probability density function"""
+        variance = self.stddev**2
+        return (1 / 2 * self.pi * variance**2) * self.e ** (-((x-self.mean)**2)/ (2* variance**2))

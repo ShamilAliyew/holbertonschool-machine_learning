@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """a class Exponential that represents an exponential distribution:"""
-import math
 
 
 class Exponential():
     """a class Exponential that represents an exponential distribution:"""
+
+    e = 2.7182818285
     def __init__(self, data=None, lambtha=1.):
         self.data = data
         if data is None:
@@ -22,10 +23,10 @@ class Exponential():
         """Probability density function"""
         if x < 0:
             return 0
-        return self.lambtha * math.exp(-self.lambtha*x)
+        return self.lambtha * self.e ** (-self.lambtha * x)
 
     def cdf(self, x):
         """Cumulative distribution function"""
         if x < 0:
             return 0
-        return 1 - math.exp(-self.lambtha*x)
+        return 1 - pow(self.e, -self.lambtha*x)

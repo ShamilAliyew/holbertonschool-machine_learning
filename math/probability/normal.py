@@ -2,6 +2,8 @@
 """a class Normal that represents a normal distribution"""
 import math
 
+from math.probability.poisson import Poisson
+
 
 class Normal:
     """a class Normal that represents a normal distribution"""
@@ -15,8 +17,12 @@ class Normal:
             self.mean = float(mean)
             self.stddev = float(stddev)
         else:
+            if isinstance(data, list):
+                raise TypeError('data must be a list')
+            if len(data) < 2:
+                raise ValueError('data must contain multiple values')
             self.mean = sum(data) / len(data)
-            sum = 0
+            s = 0
             for x in data:
-                sum += pow(x-mean, 2)
-            self.stddev = math.sqrt(sum/len(data))
+                s += pow(x-mean, 2)
+            self.stddev = math.sqrt(s/len(data))

@@ -24,3 +24,19 @@ class Binomial():
             self.p = 1 - (std_dev**2)/mean
             self.n = int(round(mean/self.p))
             self.p = float(mean/self.n)
+
+    def pmf(self, k):
+        """Probability mass function"""
+        if not isinstance(k, int):
+            k=int(k)
+        if k <= 0:
+            return 0
+        combination = (Binomial.faktorial(self.n)/
+                       (Binomial.faktorial(k) * Binomial.faktorial(self.n-k)))
+        return combination * self.p**self.n * (1-self.p)**(self.n-k)
+
+    def faktorial(num):
+        f=1
+        for i in range(1, num+1):
+            f*=i
+        return f

@@ -49,7 +49,7 @@ class Normal:
         """Cumulative distribution function"""
         val = (x - self.mean) / (self.stddev * (2 ** (1 / 2)))
         erf1 = (2 / Normal.pi ** (1 / 2))
-        erf2 = (val - (val ** 3) / 3 + (val ** 5) / 10 - (val ** 7) / 42 +\
-                                                        (val ** 9) / 216)
+        erf2 = (val - (val ** 3) / 3 + (val ** 5) / 10 - (val ** 7) / 42 +
+            (val ** 9) / 216)
         cdf = (1 / 2) * (1 + erf1 * erf2)
         return cdf

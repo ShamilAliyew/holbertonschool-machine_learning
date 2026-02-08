@@ -33,9 +33,10 @@ class Binomial():
             return 0
         combination = (Binomial.faktorial(self.n)/
                        (Binomial.faktorial(k) * Binomial.faktorial(self.n-k)))
-        return combination * self.p**self.n * (1-self.p)**(self.n-k)
+        return combination * self.p**k * (1-self.p)**(self.n-k)
 
     def faktorial(num):
+        """faktorial function"""
         f=1
         for i in range(1, num+1):
             f*=i

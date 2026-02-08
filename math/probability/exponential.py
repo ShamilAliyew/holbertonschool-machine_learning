@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """a class Exponential that represents an exponential distribution:"""
+import math
 
 
 class Exponential():
@@ -16,3 +17,15 @@ class Exponential():
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
             self.lambtha = 1 / (sum(data) / len(data))
+
+    def pdf(self, x):
+        """Probability density function"""
+        if x < 0:
+            return 0
+        return self.lambtha * math.exp(-self.lambtha*x)
+
+    def cdf(self, x):
+        """Cumulative distribution function"""
+        if x < 0:
+            return 0
+        return 1 - math.exp(-self.lambtha*x)

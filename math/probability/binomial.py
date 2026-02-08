@@ -50,6 +50,6 @@ class Binomial():
         if k is None or k < 0 or k > self.n:
             return 0
         cdf_value = 0
-        for i in range(1, k+1):
+        for i in range(k+1):
             cdf_value += self.pmf(i)
         return cdf_value

@@ -29,7 +29,7 @@ class Binomial():
         """Probability mass function"""
         if not isinstance(k, int):
             k=int(k)
-        if k <= 0:
+        if k is None or k <= 0 or k > self.n:
             return 0
         combination = (Binomial.faktorial(self.n)/
                        (Binomial.faktorial(k) * Binomial.faktorial(self.n-k)))

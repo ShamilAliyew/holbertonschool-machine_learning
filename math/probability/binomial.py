@@ -6,9 +6,7 @@ class Binomial():
     """a class Binomial that represents a binomial distribution"""
 
     def __init__(self, data=None, n=1, p=0.5):
-        if (data is None and
-            isinstance(n, (float, int)) and
-            isinstance(p, (float, int))):
+        if (data is None ):
             if n <= 0:
                 raise ValueError("n must be a positive value")
             if p >= 1 and p <= 0:

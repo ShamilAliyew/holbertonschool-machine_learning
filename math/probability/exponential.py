@@ -6,6 +6,7 @@ class Exponential():
     """a class Exponential that represents an exponential distribution:"""
 
     e = 2.7182818285
+
     def __init__(self, data=None, lambtha=1.):
         self.data = data
         if data is None:

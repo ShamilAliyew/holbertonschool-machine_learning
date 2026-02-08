@@ -43,3 +43,13 @@ class Binomial():
         for i in range(1, num+1):
             f *= i
         return f
+    def cdf(self, k):
+        """Cumulative distribution function"""
+        if not isinstance(k, int):
+            k = int(k)
+        if k is None or k < 0 or k > self.n:
+            return 0
+        cdf_value = 0
+        for i in range(1, k+1):
+            cdf_value += self.pmf(i)
+        return cdf_value

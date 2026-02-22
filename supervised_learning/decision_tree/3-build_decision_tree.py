@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""Documented"""
+"""
+Decision Tree and Random Forest implementation
+with Node and Leaf classes.
+"""
 
 import numpy as np
 
 
 class Node:
-    """Documented"""
+    """A node class that generalizes everything including root and leaves."""
 
     def __init__(self, feature=None, threshold=None, left_child=None,
                  right_child=None, is_root=False, depth=0):
-        """Documented"""
+        """Construct the Node object."""
         self.feature = feature
         self.threshold = threshold
         self.left_child = left_child
@@ -20,93 +23,111 @@ class Node:
         self.depth = depth
 
     def max_depth_below(self):
-        """Documented"""
-        return max(self.left_child.max_depth_below(),
-                   self.right_child.max_depth_below())
+        """Find the maximum depth."""
+        if self.is_leaf:
+            return self.depth
+        left = self.left_child.max_depth_below()\
+            if self.left_child else self.depth
+        right = self.right_child.max_depth_below()\
+            if self.right_child else self.depth
+        return max(left, right)
 
     def count_nodes_below(self, only_leaves=False):
-        """Documented"""
-        return (self.left_child.count_nodes_below(only_leaves=only_leaves) +
-                self.right_child.count_nodes_below(only_leaves=only_leaves) +
-                (0 if only_leaves else 1))
+        """Count the number of nodes below, only leaves if specified."""
+        if self.is_leaf:
+            return 1
+
+        if only_leaves:
+            left = self.left_child.count_nodes_below(True)\
+                if self.left_child else 0
+            right = self.right_child.count_nodes_below(True)\
+                if self.right_child else 0
+            return left + right
+        else:
+            left = self.left_child.count_nodes_below(False)\
+                if self.left_child else 0
+            right = self.right_child.count_nodes_below(False)\
+                if self.right_child else 0
+            return 1 + left + right
+
+    def __str__(self):
+        """STR"""
+        if self.is_root:
+            s = f"root [feature={self.feature}, threshold={self.threshold}]"
+        else:
+            s = f"node [feature={self.feature}, threshold={self.threshold}]"
+
+        if self.left_child:
+            left_str = self.left_child.__str__()
+            s += "\n" + self.left_child_add_prefix(left_str).rstrip("\n")
+
+        if self.right_child:
+            right_str = self.right_child.__str__()
+            s += "\n" + self.right_child_add_prefix(right_str).rstrip("\n")
+
+        return s
 
     def left_child_add_prefix(self, text):
-        """Documented"""
+        """Left Child"""
         lines = text.split("\n")
         new_text = "    +---> " + lines[0] + "\n"
         for x in lines[1:]:
-            if x:
-                new_text += ("    |  " + x) + "\n"
+            new_text += ("    |  " + x) + "\n"
         return new_text
 
     def right_child_add_prefix(self, text):
-        """Documented"""
+        """Right Child"""
         lines = text.split("\n")
         new_text = "    +---> " + lines[0] + "\n"
         for x in lines[1:]:
-            if x:
-                new_text += ("       " + x) + "\n"
+            new_text += ("       " + x) + "\n"
         return new_text
 
-    def __str__(self):
-        """Documented"""
-        if self.is_root:
-            out = (f"root [feature={self.feature}, "
-                   f"threshold={self.threshold}]\n")
-        else:
-            out = (f"node [feature={self.feature}, "
-                   f"threshold={self.threshold}]\n")
-
-        if self.left_child:
-            out += self.left_child_add_prefix(str(self.left_child))
-        if self.right_child:
-            out += self.right_child_add_prefix(str(self.right_child))
-        return out
-
     def get_leaves_below(self):
-        """Documented"""
+        """Get Leaves"""
+        if self.is_leaf:
+            return [self]
         leaves = []
         if self.left_child:
             leaves.extend(self.left_child.get_leaves_below())
         if self.right_child:
             leaves.extend(self.right_child.get_leaves_below())
-
         return leaves
 
 
 class Leaf(Node):
-    """Documented"""
+    """Terminal node which is a leaf."""
 
     def __init__(self, value, depth=None):
-        """Documented"""
+        """Construct the leaf object."""
         super().__init__()
         self.value = value
         self.is_leaf = True
         self.depth = depth
 
     def max_depth_below(self):
-        """Documented"""
+        """Retur the depth of the leaf."""
         return self.depth
 
     def count_nodes_below(self, only_leaves=False):
-        """Documented"""
+        """Return the count of 1 leaf."""
         return 1
 
     def __str__(self):
-        """Documented"""
-        return "-> leaf [value={}]".format(self.value)
+        """STR"""
+        return f"-> leaf [value={self.value}]"
 
     def get_leaves_below(self):
-        """Documented"""
+        """Get Leaves"""
         return [self]
 
 
 class Decision_Tree():
-    """Documented"""
+    """The whole Decision Tree class."""
 
     def __init__(self, max_depth=10, min_pop=1, seed=0,
                  split_criterion="random", root=None):
-        """Documented"""
+        """Construct the decision tree."""
         self.rng = np.random.default_rng(seed)
         if root:
             self.root = root
@@ -120,17 +141,17 @@ class Decision_Tree():
         self.predict = None
 
     def depth(self):
-        """Documented"""
+        """Return the maximum depth of tree."""
         return self.root.max_depth_below()
 
     def count_nodes(self, only_leaves=False):
-        """Documented"""
+        """Return the count of leaves."""
         return self.root.count_nodes_below(only_leaves=only_leaves)
 
-    def __str__(self):
-        """Documented"""
-        return self.root.__str__()
-
     def get_leaves(self):
-        """Documented"""
+        """Get Leaves"""
         return self.root.get_leaves_below()
+
+    def __str__(self):
+        """STR"""
+        return self.root.__str__() + "\n"

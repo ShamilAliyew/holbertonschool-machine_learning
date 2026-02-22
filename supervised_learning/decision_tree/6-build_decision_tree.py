@@ -29,6 +29,7 @@ class Node:
         self.depth = depth
 
     def max_depth_below(self):
+        """Documendted"""
         if self.is_leaf:
             return self.depth
 
@@ -45,6 +46,7 @@ class Node:
         return max(left, right)
 
     def count_nodes_below(self, only_leaves=False):
+        """Documendted"""
         if self.is_leaf:
             return 1
 
@@ -64,6 +66,7 @@ class Node:
         return 1 + left + right
 
     def __str__(self):
+        """Documendted"""
         if self.is_root:
             s = (
                 f"root [feature={self.feature}, "
@@ -90,6 +93,7 @@ class Node:
         return s
 
     def left_child_add_prefix(self, text):
+        """Documendted"""
         lines = text.split("\n")
         new_text = "    +---> " + lines[0] + "\n"
         for x in lines[1:]:
@@ -97,6 +101,7 @@ class Node:
         return new_text
 
     def right_child_add_prefix(self, text):
+        """Documendted"""
         lines = text.split("\n")
         new_text = "    +---> " + lines[0] + "\n"
         for x in lines[1:]:
@@ -104,6 +109,7 @@ class Node:
         return new_text
 
     def get_leaves_below(self):
+        """Documendted"""
         if self.is_leaf:
             return [self]
 
@@ -115,6 +121,7 @@ class Node:
         return leaves
 
     def update_bounds_below(self):
+        """Documendted"""
         if self.is_root:
             self.lower = {0: -np.inf}
             self.upper = {0: np.inf}
@@ -139,6 +146,7 @@ class Node:
                 child.update_bounds_below()
 
     def update_indicator(self):
+        """Documendted"""
         def is_large_enough(x):
             return np.all(
                 [x[:, j] >= bound for j, bound in self.lower.items()],
@@ -146,6 +154,7 @@ class Node:
             )
 
         def is_small_enough(x):
+            """Documendted"""
             return np.all(
                 [x[:, j] <= bound for j, bound in self.upper.items()],
                 axis=0,
@@ -157,6 +166,7 @@ class Node:
         )
 
     def pred(self, x):
+        """Documendted"""
         if x[self.feature] > self.threshold:
             return self.left_child.pred(x)
         return self.right_child.pred(x)
@@ -172,21 +182,27 @@ class Leaf(Node):
         self.depth = depth
 
     def max_depth_below(self):
+        """Documendted"""
         return self.depth
 
     def count_nodes_below(self, only_leaves=False):
+        """Documendted"""
         return 1
 
     def __str__(self):
+        """Documendted"""
         return f"-> leaf [value={self.value}]"
 
     def get_leaves_below(self):
+        """Documendted"""
         return [self]
 
     def update_bounds_below(self):
+        """Documendted"""
         pass
 
     def pred(self, x):
+        """Documendted"""
         return self.value
 
 
@@ -212,24 +228,31 @@ class Decision_Tree:
         self.predict = None
 
     def depth(self):
+        """Documendted"""
         return self.root.max_depth_below()
 
     def count_nodes(self, only_leaves=False):
+        """Documendted"""
         return self.root.count_nodes_below(only_leaves)
 
     def get_leaves(self):
+        """Documendted"""
         return self.root.get_leaves_below()
 
     def __str__(self):
+        """Documendted"""
         return self.root.__str__() + "\n"
 
     def update_bounds(self):
+        """Documendted"""
         self.root.update_bounds_below()
 
     def pred(self, x):
+        """Documendted"""
         return self.root.pred(x)
 
     def update_predict(self):
+        """Documendted"""
         self.update_bounds()
         leaves = self.get_leaves()
 
@@ -239,6 +262,7 @@ class Decision_Tree:
         self.predict = lambda A: self._predict_from_leaves(A, leaves)
 
     def _predict_from_leaves(self, A, leaves):
+        """Documendted"""
         res = np.zeros(A.shape[0])
         for leaf in leaves:
             mask = leaf.indicator(A)
@@ -246,6 +270,7 @@ class Decision_Tree:
         return res
 
     def fit(self, explanatory, target, verbose=0):
+        """Documendted"""
         self.explanatory = explanatory
         self.target = target
 
@@ -271,6 +296,7 @@ class Decision_Tree:
             )
 
     def fit_node(self, node):
+        """Documendted"""
         sub_target = self.target[node.sub_population]
 
         if (
@@ -337,6 +363,7 @@ class Decision_Tree:
             self.fit_node(node.right_child)
 
     def get_leaf_child(self, node, sub_population):
+        """Documendted"""
         value = np.bincount(
             self.target[sub_population]
         ).argmax()
@@ -347,6 +374,7 @@ class Decision_Tree:
         return leaf_child
 
     def get_node_child(self, node, sub_population):
+        """Documendted"""
         n = Node()
         n.depth = node.depth + 1
         n.sub_population = sub_population
@@ -357,9 +385,11 @@ class Decision_Tree:
         return np.sum(preds == test_target) / test_target.size
 
     def np_extrema(self, arr):
+        """Documendted"""
         return np.min(arr), np.max(arr)
 
     def random_split_criterion(self, node):
+        """Documendted"""
         diff = 0
 
         while diff == 0:

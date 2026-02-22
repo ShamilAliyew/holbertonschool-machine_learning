@@ -47,9 +47,9 @@ class Leaf(Node):
     def max_depth_below(self):
         return self.depth
 
-
     def count_nodes_below(self, only_leaves=False):
         return 1
+
 
 class Decision_Tree():
     """Documented"""

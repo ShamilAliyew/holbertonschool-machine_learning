@@ -381,6 +381,7 @@ class Decision_Tree:
         return n
 
     def accuracy(self, test_explanatory, test_target):
+        """Documendted"""
         preds = self.predict(test_explanatory)
         return np.sum(preds == test_target) / test_target.size
 

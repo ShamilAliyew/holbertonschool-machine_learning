@@ -207,7 +207,7 @@ class Leaf(Node):
 
 
 class Decision_Tree:
-    """Documendted"""
+    """Documendted decision trees"""
 
     def __init__(
         self,

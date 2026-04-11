@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ a function def flip_image(image): that flips an image horizontally"""
-
 import tensorflow as tf
+
 
 def flip_image(image):
     """

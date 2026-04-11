@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Write a function def crop_image(image, size):
 that performs a random crop of an image"""
-
-
 import tensorflow as tf
+
 
 def crop_image(image, size):
     """

@@ -12,7 +12,8 @@ def crop_image(image, size):
         image (tf.Tensor):
          A 3D tf.Tensor containing the image to crop.
         size (tuple):
-         A tuple containing the size of the crop (height, width, channels).
+         A tuple containing the size of the crop
+          (height, width, channels).
 
     Returns:
         tf.Tensor: The cropped image.

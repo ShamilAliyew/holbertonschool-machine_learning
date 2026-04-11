@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""a function def change_hue(image, delta): that changes the hue of an image"""
+"""a function def change_hue(image, delta):
+ that changes the hue of an image"""
 import tensorflow as tf
 
 

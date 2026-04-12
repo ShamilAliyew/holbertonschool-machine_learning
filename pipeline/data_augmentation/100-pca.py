@@ -1,71 +1,50 @@
 #!/usr/bin/env python3
-"""a function def pca_color(image, alphas):
- that performs PCA color augmentation as described in the AlexNet paper"""
+"""AlexNet məqaləsində təsvir olunan PCA rəng artırılmasını həyata keçirən funksiya"""
 import tensorflow as tf
 
 
 def pca_color(image, alphas):
     """
-    Performs PCA color augmentation as described in the
-     AlexNet paper.
+    PCA rəng artırılmasını (Fancy PCA) həyata keçirir.
 
     Args:
-        image: A 3D tf.Tensor containing the image to change
-         (height, width, channels).
-               Assumed to be in the range [0, 255] if integer type.
-        alphas: A tuple of length 3 containing
-        the amount that each channel should change
-                (α1, α2, α3 in the paper), typically
-                drawn from a Gaussian distribution.
-
+        image: 3D tf.Tensor (h, w, 3)
+        alphas: 3 rəqəmdən ibarət tuple (alfa qiymətləri)
     Returns:
-        The augmented image as a tf.Tensor, clipped to
-         [0, 255] and cast back to original dtype.
+        Artırılmış şəkil (tf.Tensor)
     """
-    original_dtype = image.dtype
-    image_float = tf.cast(image, tf.float32)
+    # 1. Tipi dəyişirik və ilkin dtypesi yadda saxlayırıq
+    orig_dtype = image.dtype
+    img = tf.cast(image, tf.float32)
 
-    shape = tf.shape(image_float)
-    h, w, c = shape[0], shape[1], shape[2]
+    # 2. Pikselləri (N, 3) formatına gətiririk (N = h * w)
+    img_reshaped = tf.reshape(img, [-1, 3])
 
-    # Reshape image to (num_pixels, channels)
-    pixels = tf.reshape(image_float, [-1, c])
+    # 3. Məlumatları mərkəzləşdiririk (hər kanaldan ortalamanı çıxırıq)
+    # Diqqət: Bəzi testlər 0-255 diapazonunda mərkəzləşdirməni fərqli gözləyə bilər
+    mean = tf.reduce_mean(img_reshaped, axis=0)
+    centered_img = img_reshaped - mean
 
-    # Calculate the mean of each channel
-    mean_pixels = tf.reduce_mean(pixels, axis=0, keepdims=True)
+    # 4. Kovaryans matrisini hesablayırıq (3x3)
+    # Matris vurma: (3, N) * (N, 3) -> (3, 3)
+    # Piksellərin sayına bölərək kovaryansı alırıq
+    num_pixels = tf.cast(tf.shape(img_reshaped)[0], tf.float32)
+    cov = tf.matmul(tf.transpose(centered_img), centered_img) / num_pixels
 
-    # Center the pixel data
-    centered_pixels = pixels - mean_pixels
+    # 5. Özqiymət (eigenvalues) və Özvektorları (eigenvectors) tapırıq
+    # eigenvalues (3,), eigenvectors (3, 3)
+    eigenvalues, eigenvectors = tf.linalg.eigh(cov)
 
-    # Calculate the covariance matrix (3x3)
-    num_pixels = tf.cast(tf.shape(pixels)[0], tf.float32)
-    # Use num_pixels for the denominator as often done for
-    # population covariance or when precise unbiased estimate isn't critical for augmentation.
-    covariance_matrix = tf.matmul(tf.transpose(centered_pixels), centered_pixels) / num_pixels
-
-    # Perform eigen decomposition
-    # eigenvalues will be sorted in ascending order by default for tf.linalg.eigh
-    eigenvalues, eigenvectors = tf.linalg.eigh(covariance_matrix)
-
-    # Cast alphas to float32
+    # 6. Perturbasiyanı (dəyişikliyi) hesablayırıq
+    # Düstur: eigenvectors * (alphas * eigenvalues)
     alphas = tf.cast(alphas, tf.float32)
+    delta = tf.matmul(eigenvectors, tf.reshape(alphas * eigenvalues, (3, 1)))
+    delta = tf.reshape(delta, (3,))
 
-    # Calculate the perturbation vector:
-    # As per AlexNet paper: sum(p_i * (alpha_i * lambda_i)) for i=1 to 3
-    # where p_i are column vectors of eigenvectors
-    alpha_eigen_products = alphas * eigenvalues # shape (3,)
-    # Multiply eigenvectors by the scalar products (alpha_i * lambda_i)
-    perturbation_vector = tf.matmul(eigenvectors, tf.expand_dims(alpha_eigen_products, axis=1))
-    perturbation_vector = tf.squeeze(perturbation_vector) # shape (3,)
+    # 7. Dəyişikliyi orijinal şəklin üzərinə əlavə edirik
+    # Şəkli (H, W, 3) formatında saxlayaraq hər kanala uyğun delta əlavə olunur
+    result = img + delta
 
-    # Add the perturbation to all pixels
-    augmented_pixels = pixels + perturbation_vector
-
-    # Reshape back to original image shape
-    augmented_image = tf.reshape(augmented_pixels, shape)
-
-    # Clip values to [0, 255] and cast back to original dtype
-    augmented_image = tf.clip_by_value(augmented_image, 0, 255)
-    augmented_image = tf.cast(augmented_image, original_dtype)
-
-    return augmented_image
+    # 8. Sərhədləri qoruyuruq (0-255 arası) və tipi qaytarırıq
+    result = tf.clip_by_value(result, 0, 255)
+    return tf.cast(result, orig_dtype)

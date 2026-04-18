@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Comment of Function"""
 from tensorflow import keras as K
+
+
 def inception_block(A_prev, filters):
     """Inception Block"""
     F1, F3R, F3, F5R, F5, FPP = filters

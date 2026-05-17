@@ -18,7 +18,6 @@ def HP(Di, beta):
         Hi: the Shannon entropy of the points
         Pi: numpy.ndarray of shape (n - 1,) containing the P affinities
     """
-    # beta hem array (1,) hem de float gelebileceği için güvenli dönüşüm yapıyoruz
     if isinstance(beta, np.ndarray):
         beta_val = beta[0]
     else:
@@ -34,8 +33,8 @@ def HP(Di, beta):
     # Afinite olasılıklarını normalize et (Pi)
     Pi = exp_distances / sum_exp
 
-    # Shannon Entropisi hesabı (H_i)
-    # Taşma ve NaN hatalarını önleyen basitleştirilmiş formül
-    Hi = (beta_val * np.sum(Pi * Di) / np.log(2)) + np.log2(sum_exp)
+    # Standart Shannon Entropisi hesabı: H_i = -sum(P * log2(P))
+    # log2(0) tanımsızlığını engellemek için kararlılık payı (1e-12) eklenir
+    Hi = -np.sum(Pi * np.log2(Pi + 1e-12))
 
     return Hi, Pi

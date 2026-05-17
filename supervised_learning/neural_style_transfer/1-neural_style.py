@@ -111,7 +111,8 @@ class NST:
         custom_model = tf.keras.models.Model(vgg.input, outputs)
 
         # 4. MaxPooling laylarını AveragePooling2D ilə əvəzləyirik
-        # Bu, model_summary strukturunun əsas test nümunəsinə uyğun olması üçündür
+        # Bu, model_summary strukturunun əsas test
+        # nümunəsinə uyğun olması üçündür
         custom_objects = {'MaxPooling2D': tf.keras.layers.AveragePooling2D}
 
         # Modeli konfiqurasiya səviyyəsində yenidən qurmaq üçün clone edirik
@@ -127,7 +128,8 @@ class NST:
                         'pool', 'pool'
                     )
 
-        # Yenilənmiş konfiqurasiyadan yeni modeli yaradırıq və çəkiləri köçürürük
+        # Yenilənmiş konfiqurasiyadan yeni modeli
+        # yaradırıq və çəkiləri köçürürük
         self.model = tf.keras.models.Model.from_config(
             config,
             custom_objects=custom_objects

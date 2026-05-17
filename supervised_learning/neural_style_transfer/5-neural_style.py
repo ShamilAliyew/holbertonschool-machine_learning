@@ -189,7 +189,8 @@ class NST:
         # Gözlənilən siyahı uzunluğunu təyin edirik
         l_layers = len(self.style_layers)
 
-        # style_outputs mütləq siyahı (list) olmalı və uzunluğu düzgün olmalıdır
+        # style_outputs mütləq siyahı
+        # (list) olmalı və uzunluğu düzgün olmalıdır
         if not isinstance(style_outputs, list) or \
            len(style_outputs) != l_layers:
             raise TypeError(

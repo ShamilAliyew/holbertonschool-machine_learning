@@ -155,7 +155,8 @@ class NST:
         # Üslub şəklinin model çıxışlarını götürürük
         style_outputs = self.model(style_preprocessed)
 
-        # İlk 5 çıxış üslub qatlarına aiddir, hər biri üçün Gram matrisi hesablanmalıdır
+        # İlk 5 çıxış üslub qatlarına aiddir,
+        # hər biri üçün Gram matrisi hesablanmalıdır
         self.gram_style_features = [
             self.gram_matrix(layer) for layer in style_outputs[:-1]
         ]

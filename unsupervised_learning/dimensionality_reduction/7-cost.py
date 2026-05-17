@@ -16,7 +16,8 @@ def cost(P, Q):
     Returns:
         C: the cost of the transformation (KL divergence)
     """
-    # log(0) hatalarından kaçınmak için p ve q matrislerini alt sınıra eşitleriz
+    # log(0) hatalarından kaçınmak için p ve
+    # q matrislerini alt sınıra eşitleriz
     P = np.maximum(P, 1e-12)
     Q = np.maximum(Q, 1e-12)
 

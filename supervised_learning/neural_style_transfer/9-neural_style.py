@@ -269,16 +269,6 @@ class NST:
                        beta1=0.9, beta2=0.99):
         """
         Generates the neural style transferred image
-
-        Parameters:
-            iterations: number of iterations to perform gradient descent
-            step: step at which you should print training information
-            lr: learning rate for gradient descent
-            beta1: beta1 parameter for Adam optimization
-            beta2: beta2 parameter for Adam optimization
-
-        Returns:
-            generated_image, cost
         """
         if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
@@ -317,22 +307,20 @@ class NST:
             beta_2=beta2
         )
 
-        # Ən yaxşı xəta dəyərlərini izləmək üçün dəyişənlər
         best_cost = float('inf')
         best_image = None
 
         # Şəkli dövr daxilində optimallaşdırırıq
         for i in range(iterations + 1):
             # Cari iterasiyada qradiyentləri hesablayırıq
-            grads, J_total, J_content, J_style =\
-                self.compute_grads(
+            grads, J_total, J_content, J_style = self.compute_grads(
                 generated_image
             )
-            # Əgər cari xəta indiyə qədərki ən yaxşı
-            # xətadırsa, şəkli qeyd edirik
+
+            # Əgər cari xəta indiyə qədərki ən yaxşı xətadırsa
             if J_total < best_cost:
                 best_cost = J_total
-                # Tenzorun kopyasını çıxarmaq üçün sıfır əlavə edib pikselləri sıxırıq
+                # Pikselləri sıxıb tenzoru yadda saxlayırıq
                 best_image = tf.clip_by_value(generated_image, 0.0, 1.0)
 
             # İnformasiyanın ekrana çıxarılması şərti
@@ -343,12 +331,10 @@ class NST:
             # Son iterasiyada optimallaşdırma addımı atmırıq
             if i < iterations:
                 optimizer.apply_gradients([(grads, generated_image)])
-                # Şəkli [0, 1] aralığına salırıq
                 generated_image.assign(
                     tf.clip_by_value(generated_image, 0.0, 1.0)
                 )
 
-        # Model dördlü formada (1, h, w, 3) qaytardığı üçün 0-cı oxu silirik
         final_image = tf.squeeze(best_image, axis=0).numpy()
 
         return final_image, best_cost

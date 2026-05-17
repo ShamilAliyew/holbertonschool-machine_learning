@@ -289,7 +289,8 @@ class NST:
             if not isinstance(step, int):
                 raise TypeError("step must be an integer")
             if step <= 0 or step > iterations:
-                raise ValueError("step must be positive and less than iterations")
+                raise ValueError("step must be positive and"
+                                 " less than iterations")
 
         if not isinstance(lr, (int, float)):
             raise TypeError("lr must be a number")
@@ -323,11 +324,12 @@ class NST:
         # Şəkli dövr daxilində optimallaşdırırıq
         for i in range(iterations + 1):
             # Cari iterasiyada qradiyentləri hesablayırıq
-            grads, J_total, J_content, J_style = self.compute_grads(
+            grads, J_total, J_content, J_style =\
+                self.compute_grads(
                 generated_image
             )
-
-            # Əgər cari xəta indiyə qədərki ən yaxşı xətadırsa, şəkli qeyd edirik
+            # Əgər cari xəta indiyə qədərki ən yaxşı
+            # xətadırsa, şəkli qeyd edirik
             if J_total < best_cost:
                 best_cost = J_total
                 # Tenzorun kopyasını çıxarmaq üçün sıfır əlavə edib pikselləri sıxırıq

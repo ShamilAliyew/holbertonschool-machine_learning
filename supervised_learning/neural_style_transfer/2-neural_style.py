@@ -120,12 +120,15 @@ class NST:
         Calculates the gram matrix of a layer output
 
         Parameters:
-            input_layer: tf.Tensor or tf.Variable of shape (1, h, w, c)
+            input_layer: tf.Tensor or tf.Variable of
+            shape (1, h, w, c)
 
         Returns:
-            gram: tf.Tensor of shape (1, c, c) containing the gram matrix
+            gram: tf.Tensor of shape (1, c, c)
+             containing the gram matrix
         """
-        # Tensor və ya Variable olmasını, həmçinin rank-ın 4 olmasını yoxlayırıq
+        # Tensor və ya Variable olmasını, həmçinin
+        # rank-ın 4 olmasını yoxlayırıq
         if not isinstance(input_layer, (tf.Tensor, tf.Variable)) or \
            len(input_layer.shape) != 4:
             raise TypeError("input_layer must be a tensor of rank 4")
@@ -144,7 +147,8 @@ class NST:
         num_locations = tf.cast(h * w, tf.float32)
         gram = gram / num_locations
 
-        # Tələb olunan çıxış formasına (1, c, c) uyğun olaraq batch ölçüsü əlavə edirik
+        # Tələb olunan çıxış formasına
+        # (1, c, c) uyğun olaraq batch ölçüsü əlavə edirik
         gram = tf.expand_dims(gram, axis=0)
 
         return gram

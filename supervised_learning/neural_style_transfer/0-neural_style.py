@@ -92,7 +92,8 @@ class NST:
         # Pikselləri [0, 255] aralığından [0, 1] aralığına normallaşdırırıq
         scaled_image = scaled_image / 255.0
 
-        # Dəyərlərin tam [0, 1] aralığında qalmasını təmin etmək üçün clip edirik
+        # Dəyərlərin tam [0, 1] aralığında
+        # qalmasını təmin etmək üçün clip edirik
         scaled_image = tf.clip_by_value(scaled_image, 0.0, 1.0)
 
         return scaled_image

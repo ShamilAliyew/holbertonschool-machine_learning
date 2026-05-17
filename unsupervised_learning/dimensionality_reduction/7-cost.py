@@ -20,7 +20,7 @@ def cost(P, Q):
     P = np.maximum(P, 1e-12)
     Q = np.maximum(Q, 1e-12)
 
-    # KL Iraksamasını hesaplarız: sum(P * log(P / Q))
+    # KL Iraksaması hesabı
     C = np.sum(P * np.log(P / Q))
 
     return C

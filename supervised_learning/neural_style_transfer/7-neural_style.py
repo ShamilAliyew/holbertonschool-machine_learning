@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Module to calculate Neural Style Transfer total cost
+Neural Style Transfer class with optimization step
 """
 import numpy as np
 import tensorflow as tf
@@ -49,8 +49,7 @@ class NST:
     @staticmethod
     def scale_image(image):
         """
-        Rescales an image such that its pixels values are between 0 and 1
-        and its largest side is 512 pixels
+        Rescales an image to 512 pixels max side
         """
         if not isinstance(image, np.ndarray) or \
            len(image.shape) != 3 or image.shape[2] != 3:
@@ -83,7 +82,7 @@ class NST:
 
     def load_model(self):
         """
-        Creates the model used to calculate cost using VGG19 Keras model
+        Creates the model using VGG19
         """
         vgg = tf.keras.applications.vgg19.VGG19(
             include_top=False,
@@ -137,21 +136,21 @@ class NST:
 
     def generate_features(self):
         """
-        Extracts the features used to calculate neural style cost
+        Extracts the features for style and content
         """
-        style_preprocessed = tf.keras.applications.vgg19.preprocess_input(
+        style_p = tf.keras.applications.vgg19.preprocess_input(
             self.style_image * 255.0
         )
-        content_preprocessed = tf.keras.applications.vgg19.preprocess_input(
+        content_p = tf.keras.applications.vgg19.preprocess_input(
             self.content_image * 255.0
         )
 
-        style_outputs = self.model(style_preprocessed)
+        style_outputs = self.model(style_p)
         self.gram_style_features = [
             self.gram_matrix(layer) for layer in style_outputs[:-1]
         ]
 
-        content_outputs = self.model(content_preprocessed)
+        content_outputs = self.model(content_p)
         self.content_feature = content_outputs[-1]
 
     def layer_style_cost(self, style_output, gram_target):
@@ -219,21 +218,9 @@ class NST:
     def total_cost(self, generated_image):
         """
         Calculates the total cost for the generated image
-
-        Parameters:
-            generated_image: tf.Tensor/tf.Variable of shape (1, nh, nw, 3)
-                             containing the generated image
-
-        Returns:
-            Tuple of (J, J_content, J_style):
-                J: total cost
-                J_content: content cost
-                J_style: style cost
         """
-        # Gözlənilən formanı (shape) təyin edirik
         c_shape = self.content_image.shape
 
-        # Tensor/Variable olmasını və formasının düzgünlüyünü yoxlayırıq
         if not isinstance(generated_image, (tf.Tensor, tf.Variable)) or \
            generated_image.shape != c_shape:
             raise TypeError(
@@ -241,23 +228,17 @@ class NST:
                 .format(c_shape)
             )
 
-        # Şəkli [0, 255] aralığına gətirib VGG19 ön emalına veririk
         preprocessed = tf.keras.applications.vgg19.preprocess_input(
             generated_image * 255.0
         )
 
-        # Generasiya edilən şəklin model üzərindəki qat çıxışlarını alırıq
         outputs = self.model(preprocessed)
-
-        # Sonuncu çıxış struktur, ondan əvvəlkilər isə üslub qatlarıdır
         style_outputs = outputs[:-1]
         content_output = outputs[-1]
 
-        # Struktur və üslub itkilərini hesablayırıq
         J_content = self.content_cost(content_output)
         J_style = self.style_cost(style_outputs)
 
-        # Çəkili ümumi itki funksiyasını təyin edirik
         J = (self.alpha * J_content) + (self.beta * J_style)
 
         return (J, J_content, J_style)

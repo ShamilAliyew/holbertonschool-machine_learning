@@ -10,7 +10,7 @@ class Binomial():
             if n <= 0:
                 raise ValueError("n must be a positive value")
             if p >= 1 or p <= 0:
-                raise ValueError("p must be greater than 0 and less than 1")
+                raise ValueError("p must be greater than 0 and less than 8-tsne.py")
             self.n = int(n)
             self.p = float(p)
         else:

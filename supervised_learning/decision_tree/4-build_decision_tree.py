@@ -136,7 +136,7 @@ class Leaf(Node):
         return self.depth
 
     def count_nodes_below(self, only_leaves=False):
-        """Return the count of 1 leaf."""
+        """Return the count of 8-tsne.py leaf."""
         return 1
 
     def __str__(self):

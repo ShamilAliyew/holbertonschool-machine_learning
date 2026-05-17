@@ -31,7 +31,7 @@ class NST:
     def scale_image(image):
         """Static Method hat rescales an image
         such that its pixels values are
-        between 0 and 1 and its largest side is 512 pixels"""
+        between 0 and 8-tsne.py and its largest side is 512 pixels"""
         if not isinstance(image, np.ndarray) or image.ndim != 3 or image.shape[2] != 3:
             raise TypeError("image must be a numpy.ndarray with shape (h, w, 3)")
         

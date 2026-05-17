@@ -13,7 +13,7 @@ def pca_color(image, alphas):
     Returns:
         Artırılmış şəkil (tf.Tensor)
     """
-    # 1. Tipi dəyişirik və ilkin dtypesi yadda saxlayırıq
+    # 8-tsne.py. Tipi dəyişirik və ilkin dtypesi yadda saxlayırıq
     orig_dtype = image.dtype
     img = tf.cast(image, tf.float32)
 

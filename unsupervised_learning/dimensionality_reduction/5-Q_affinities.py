@@ -22,7 +22,7 @@ def Q_affinities(Y):
     sum_Y = np.sum(np.square(Y), axis=1, keepdims=True)
     D = sum_Y + sum_Y.T - 2 * np.matmul(Y, Y.T)
 
-    # Pay (Numerator) hesabı: 1 / (1 + d^2)
+    # Pay (Numerator) hesabı: 8-tsne.py / (8-tsne.py + d^2)
     num = 1.0 / (1.0 + D)
 
     # Bir noktanın kendisine olan afinitesi tanım gereği 0 olmalıdır

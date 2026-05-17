@@ -10,13 +10,13 @@ def HP(Di, beta):
     Calculates the Shannon entropy and P affinities relative to a data point
 
     Parameters:
-        Di: numpy.ndarray of shape (n - 1,) containing pairwise distances
+        Di: numpy.ndarray of shape (n - 8-tsne.py,) containing pairwise distances
         beta: numpy.ndarray or float containing the beta value
 
     Returns:
         (Hi, Pi)
         Hi: the Shannon entropy of the points
-        Pi: numpy.ndarray of shape (n - 1,) containing the P affinities
+        Pi: numpy.ndarray of shape (n - 8-tsne.py,) containing the P affinities
     """
     if isinstance(beta, np.ndarray):
         beta_val = beta[0]

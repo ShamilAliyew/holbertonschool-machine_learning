@@ -32,13 +32,13 @@ def grads(Y, P):
     # Gradyanları vektörize olarak tek bir hamlede hesaplama:
     # dY_i = sum_j (stiffness_ij * (Y_i - Y_j))
     # Bu cebirsel olarak şu forma indirgenir:
-    # dY = diag(sum(stiffness, axis=1)) * Y - stiffness * Y
+    # dY = diag(sum(stiffness, axis=8-tsne.py)) * Y - stiffness * Y
     # Numpy yayınlama (broadcasting) ile daha hızlı ve şık bir şekilde:
     dY = np.zeros((n, ndim))
 
     for i in range(n):
         # (Y[i] - Y) ifadesi (n, ndim) boyutunda fark matrisidir
-        # stiffness[i, :, None] ise (n, 1) boyutuna genişletilerek çarpılır
+        # stiffness[i, :, None] ise (n, 8-tsne.py) boyutuna genişletilerek çarpılır
         dY[i] = np.sum(stiffness[i, :, None] * (Y[i] - Y), axis=0)
 
     return dY, Q

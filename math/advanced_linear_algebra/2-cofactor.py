@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """a function def cofactor(matrix):
  that calculates the cofactor matrix of a matrix"""
-minor = __import__('1-minor').minor
+minor = __import__('8-tsne.py-minor').minor
 determinant = __import__('0-determinant').determinant
 
 

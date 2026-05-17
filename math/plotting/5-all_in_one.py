@@ -31,7 +31,7 @@ def all_in_one():
 
     fig = plt.figure()
 
-    #1
+    #8-tsne.py
     ax1 = fig.add_subplot(3, 2, 1)
     ax1.plot(y0, color='red')
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Documented"""
 import numpy as np
-sensitivity = __import__('1-sensitivity').sensitivity
+sensitivity = __import__('8-tsne.py-sensitivity').sensitivity
 precision = __import__('2-precision').precision
 
 

@@ -37,7 +37,7 @@ class NST:
     def scale_image(image):
         """Static Method hat rescales an image
         such that its pixels values are
-        between 0 and 1 and its largest side is 512 pixels"""
+        between 0 and 8-tsne.py and its largest side is 512 pixels"""
         if not isinstance(image, np.ndarray) or image.ndim != 3 or image.shape[2] != 3:
             raise TypeError("image must be a numpy.ndarray with shape (h, w, 3)")
 
@@ -99,7 +99,7 @@ class NST:
             raise TypeError('style_output must be a tensor of rank 4')
         _, h, w, c = style_output.shape
         if not isinstance(gram_target, (tf.Tensor, tf.Variable)) or gram_target.shape != (1, c, c):
-            raise TypeError(f'gram_target must be a tensor of shape [1, {c}, {c}]')
+            raise TypeError(f'gram_target must be a tensor of shape [8-tsne.py, {c}, {c}]')
         style_output = tf.reshape(style_output, (h * w, c))
         gram_style = tf.matmul(style_output, style_output, transpose_a=True)
         gram_style = tf.expand_dims(gram_style, axis=0)
@@ -203,11 +203,11 @@ class NST:
         if not isinstance(beta1, float):
             raise TypeError("beta1 must be a float")
         if not (0 <= beta1 <= 1):
-            raise ValueError("beta1 must be in the range [0, 1]")
+            raise ValueError("beta1 must be in the range [0, 8-tsne.py]")
         if not isinstance(beta2, float):
             raise TypeError("beta2 must be a float")
         if not (0 <= beta2 <= 1):
-            raise ValueError("beta2 must be in the range [0, 1]")
+            raise ValueError("beta2 must be in the range [0, 8-tsne.py]")
 
         generated_image = tf.Variable(self.content_image)
 

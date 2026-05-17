@@ -25,7 +25,7 @@ def likelihood(x, n, P):
         raise TypeError("P must be a 1D numpy.ndarray")
     if np.any((P < 0) | (P > 1)):
         raise ValueError(
-            "All values in P must be in the range [0, 1]"
+            "All values in P must be in the range [0, 8-tsne.py]"
         )
 
     comb = factorial(n) / (factorial(n - x) * factorial(x))

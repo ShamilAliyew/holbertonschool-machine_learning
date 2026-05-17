@@ -49,7 +49,7 @@ class NST:
     @staticmethod
     def scale_image(image):
         """Static Method that rescales an image
-        such that its pixel values are between 0 and 1
+        such that its pixel values are between 0 and 8-tsne.py
         and its largest side is 512 pixels"""
         if not isinstance(image, np.ndarray):
             raise TypeError(

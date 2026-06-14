@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
@@ -47,41 +48,8 @@ class Simple_GAN(keras.Model):
         random_indices = tf.random.shuffle(sorted_indices)[:size]
         return tf.gather(self.real_examples, random_indices)
 
-    # overloading train_step()
+    # overloading train_step()    
     def train_step(self, useless_argument):
 
         # 1. Diskriminatorun öyrədilməsi (disc_iter dəfə təkrarlanır)
         for _ in range(self.disc_iter):
-            with tf.GradientTape() as tape:
-                # Real və fake nümunələrin əldə edilməsi
-                real_samples = self.get_real_sample()
-                fake_samples = self.get_fake_sample(training=True)
-
-                # Diskriminatorun hər iki nümunə üzərindən proqnozları
-                real_preds = self.discriminator(real_samples, training=True)
-                fake_preds = self.discriminator(fake_samples, training=True)
-
-                # Diskriminatorun loss-unun hesablanması
-                discr_loss = self.discriminator.loss(real_preds, fake_preds)
-
-            # Qradiyentlərin tapılması və optimizer-ə tətbiqi
-            discr_gradients = tape.gradient(discr_loss, self.discriminator.trainable_variables)
-            self.discriminator.optimizer.apply_gradients(zip(discr_gradients,
-                                                             self.discriminator.trainable_variables))
-
-        # 2. Generatorun öyrədilməsi
-        with tf.GradientTape() as tape:
-            # Yeni fake nümunələrin əldə edilməsi
-            fake_samples = self.get_fake_sample(training=True)
-
-            # Diskriminatorun fake nümunələr üzərindən proqnozu
-            gen_preds = self.discriminator(fake_samples, training=False)
-
-            # Generatorun loss-unun hesablanması
-            gen_loss = self.generator.loss(gen_preds)
-
-        # Qradiyentlərin tapılması və optimizer-ə tətbiqi
-        gen_gradients = tape.gradient(gen_loss, self.generator.trainable_variables)
-        self.generator.optimizer.apply_gradients(zip(gen_gradients, self.generator.trainable_variables))
-
-        return {"discr_loss": discr_loss, "gen_loss": gen_loss}

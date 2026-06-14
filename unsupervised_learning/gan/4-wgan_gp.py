@@ -124,6 +124,7 @@ class WGAN_GP(keras.Model):
         return {"discr_loss": discr_loss, "gen_loss": gen_loss, "gp": gp}
 
     def replace_weights(self, gen_h5, disc_h5):
-        """Replace generator and discriminator weights with pre-trained ones."""
+        """Replace generator and discriminator weights
+         with pre-trained ones."""
         self.generator.load_weights(gen_h5)
         self.discriminator.load_weights(disc_h5)

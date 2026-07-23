@@ -12,9 +12,7 @@ def gensim_to_keras(model):
     layer = tf.keras.layers.Embedding(
         input_dim=vocab_size,
         output_dim=embedding_dim,
-        embeddings_initializer=tf.keras.initializers.Constant(
-            embedding_matrix
-        ),
+        weights=[embedding_matrix],
         trainable=True
     )
 

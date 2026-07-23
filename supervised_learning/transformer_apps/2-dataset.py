@@ -2,8 +2,8 @@
 """Tokenize a translation dataset with a TensorFlow wrapper."""
 
 import tensorflow as tf
-import tensorflow_datasets as tfds
 import transformers
+from setup import load_pt2en
 
 
 class Dataset:
@@ -11,16 +11,8 @@ class Dataset:
 
     def __init__(self):
         """Load, tokenize, and encode the translation datasets."""
-        self.data_train = tfds.load(
-            'ted_hrlr_translate/pt_to_en',
-            split='train',
-            as_supervised=True
-        )
-        self.data_valid = tfds.load(
-            'ted_hrlr_translate/pt_to_en',
-            split='validation',
-            as_supervised=True
-        )
+        self.data_train = load_pt2en('train')
+        self.data_valid = load_pt2en('validation')
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
             self.data_train
         )
@@ -29,17 +21,26 @@ class Dataset:
 
     def tokenize_dataset(self, data):
         """Create Portuguese and English subword tokenizers."""
-        tokenizer_pt = (
-            tfds.features.text.SubwordTextEncoder.build_from_corpus(
-                (pt.numpy() for pt, en in data),
-                target_vocab_size=2 ** 15
-            )
+        pt_sentences = []
+        en_sentences = []
+        for pt, en in data.as_numpy_iterator():
+            pt_sentences.append(pt.decode('utf-8'))
+            en_sentences.append(en.decode('utf-8'))
+
+        tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
+            'neuralmind/bert-base-portuguese-cased'
         )
-        tokenizer_en = (
-            tfds.features.text.SubwordTextEncoder.build_from_corpus(
-                (en.numpy() for pt, en in data),
-                target_vocab_size=2 ** 15
-            )
+        tokenizer_en = transformers.AutoTokenizer.from_pretrained(
+            'bert-base-uncased'
+        )
+
+        tokenizer_pt = tokenizer_pt.train_new_from_iterator(
+            pt_sentences,
+            vocab_size=2 ** 13
+        )
+        tokenizer_en = tokenizer_en.train_new_from_iterator(
+            en_sentences,
+            vocab_size=2 ** 13
         )
 
         return tokenizer_pt, tokenizer_en
@@ -47,11 +48,17 @@ class Dataset:
     def encode(self, pt, en):
         """Encode a Portuguese-English translation pair into tokens."""
         pt_tokens = [self.tokenizer_pt.vocab_size]
-        pt_tokens += self.tokenizer_pt.encode(pt.numpy())
+        pt_tokens += self.tokenizer_pt.encode(
+            pt.numpy().decode('utf-8'),
+            add_special_tokens=False
+        )
         pt_tokens.append(self.tokenizer_pt.vocab_size + 1)
 
         en_tokens = [self.tokenizer_en.vocab_size]
-        en_tokens += self.tokenizer_en.encode(en.numpy())
+        en_tokens += self.tokenizer_en.encode(
+            en.numpy().decode('utf-8'),
+            add_special_tokens=False
+        )
         en_tokens.append(self.tokenizer_en.vocab_size + 1)
 
         return pt_tokens, en_tokens

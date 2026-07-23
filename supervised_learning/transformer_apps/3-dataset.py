@@ -27,28 +27,31 @@ class Dataset:
                 tf.size(en) <= max_len
             )
 
-        self.data_train = (
-            self.data_train
-            .filter(length_filter)
-            .cache()
-            .shuffle(20000)
-            .padded_batch(
-                batch_size,
-                padded_shapes=([None], [None])
-            )
-            .prefetch(tf.data.experimental.AUTOTUNE)
+        self.data_train = self.data_train.filter(length_filter)
+        self.data_train = self.data_train.cache()
+        self.data_train = self.data_train.shuffle(20000)
+        self.data_train = self.data_train.padded_batch(
+            batch_size,
+            padded_shapes=([None], [None])
         )
-        self.data_valid = (
-            self.data_valid
-            .filter(length_filter)
-            .padded_batch(
-                batch_size,
-                padded_shapes=([None], [None])
-            )
+        self.data_train = self.data_train.prefetch(
+            tf.data.experimental.AUTOTUNE
+        )
+
+        self.data_valid = self.data_valid.filter(length_filter)
+        self.data_valid = self.data_valid.padded_batch(
+            batch_size,
+            padded_shapes=([None], [None])
         )
 
     def tokenize_dataset(self, data):
         """Create Portuguese and English subword tokenizers."""
+        pt_sentences = []
+        en_sentences = []
+        for pt, en in data.as_numpy_iterator():
+            pt_sentences.append(pt.decode('utf-8'))
+            en_sentences.append(en.decode('utf-8'))
+
         tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
             'neuralmind/bert-base-portuguese-cased'
         )
@@ -56,22 +59,12 @@ class Dataset:
             'bert-base-uncased'
         )
 
-        def portuguese_sentences():
-            """Yield decoded Portuguese sentences."""
-            for pt, _ in data:
-                yield pt.numpy().decode('utf-8')
-
-        def english_sentences():
-            """Yield decoded English sentences."""
-            for _, en in data:
-                yield en.numpy().decode('utf-8')
-
         tokenizer_pt = tokenizer_pt.train_new_from_iterator(
-            portuguese_sentences(),
+            pt_sentences,
             vocab_size=2 ** 13
         )
         tokenizer_en = tokenizer_en.train_new_from_iterator(
-            english_sentences(),
+            en_sentences,
             vocab_size=2 ** 13
         )
 

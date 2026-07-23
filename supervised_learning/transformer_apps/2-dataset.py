@@ -66,9 +66,9 @@ class Dataset:
     def tf_encode(self, pt, en):
         """Wrap encode for use in a TensorFlow data pipeline."""
         pt_tokens, en_tokens = tf.py_function(
-            self.encode,
-            [pt, en],
-            [tf.int64, tf.int64]
+            func=self.encode,
+            inp=[pt, en],
+            Tout=[tf.int64, tf.int64]
         )
         pt_tokens.set_shape([None])
         en_tokens.set_shape([None])
